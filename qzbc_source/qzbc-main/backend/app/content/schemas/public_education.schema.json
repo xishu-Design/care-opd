@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardTCM Public Education",
+  "type": "object",
+  "required": ["entry_id", "topic", "safe_answer", "source_id", "keywords", "visibility"],
+  "properties": {
+    "entry_id": { "type": "string", "minLength": 1 },
+    "topic": { "type": "string", "minLength": 1 },
+    "question_patterns": { "type": "array", "items": { "type": "string" } },
+    "safe_answer": { "type": "string", "minLength": 1 },
+    "forbidden_claims": { "type": "array", "items": { "type": "string" } },
+    "source_id": { "type": "string", "minLength": 1 },
+    "keywords": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "visibility": { "type": "array", "items": { "enum": ["patient"] }, "minItems": 1 }
+  },
+  "additionalProperties": true
+}

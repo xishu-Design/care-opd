@@ -1,0 +1,13 @@
+{
+  "schema_version": "care_opd.multiseed_ablation_contrasts.v1",
+  "description": "Pre-specified paired semantic-localization versus exact-token-matched random control.",
+  "contrasts": [
+    {
+      "name": "localized_vs_random_token_matched",
+      "left": "localized_kd_only",
+      "right": "random_token_kd_only",
+      "definition": "Verifier-selected semantic token KD minus deterministic random KD with the same per-example token count and weight multiset."
+    }
+  ]
+}
+

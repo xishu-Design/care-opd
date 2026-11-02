@@ -1,0 +1,85 @@
+project:
+  name: care_opd_qwen35_4b
+  seed: 42
+  output_root: runs/formal
+
+data:
+  knowledge: data/knowledge/tcm_workflow_seed.json
+  output_dir: data/generated
+  train_episodes: 20000
+  dev_episodes: 2000
+  test_episodes: 4000
+  max_steps: 6
+  paired_nuisance: true
+  counterfactuals_per_failure: 4
+  holdout:
+    template_families: 0.20
+    evidence_routes: 0.20
+    failure_compositions: 0.25
+
+models:
+  student: Qwen/Qwen3.5-4B
+  teacher: Qwen/Qwen3.5-9B
+  same_tokenizer_required: true
+  dtype: bfloat16
+  attn_implementation: sdpa
+  load_in_4bit: false
+  gradient_checkpointing: true
+  max_length: 4096
+  max_new_tokens: 384
+
+online:
+  rounds: 3
+  rollouts_per_round: 12000
+  temperature: 0.9
+  top_p: 0.95
+
+optimization:
+  method: care_opd
+  divergence: jsd
+  jsd_beta: 0.9
+  temperature: 1.0
+  risk_weights:
+    benign: 1.0
+    consequential: 2.0
+    safety_critical: 4.0
+  causal_mask: true
+  trust_mask: true
+  trust_log_ratio: 3.0
+  min_teacher_margin: 0.0
+  clean_retention_weight: 0.20
+  hard_oracle_ce_weight: 0.10
+  learning_rate: 2.0e-5
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  epochs_per_round: 1
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 32
+  max_grad_norm: 1.0
+  save_steps: 250
+  eval_steps: 250
+
+lora:
+  enabled: true
+  rank: 32
+  alpha: 64
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+evaluation:
+  seeds: [42, 43, 44]
+  clean_episodes: 1000
+  single_failure_episodes: 2000
+  composed_failure_episodes: 2000
+  ood_episodes: 2000
+  bootstrap_samples: 10000
+  confidence: 0.95
+  max_steps: 6
+  primary_metric: paired_risk_adjusted_recovery

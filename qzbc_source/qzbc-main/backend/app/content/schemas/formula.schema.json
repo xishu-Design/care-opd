@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardTCM Formula",
+  "type": "object",
+  "required": ["entry_id", "name", "components", "keywords", "visibility"],
+  "properties": {
+    "entry_id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "normalized_name": { "type": "string" },
+    "components": { "type": "array", "items": { "type": ["string", "object"] }, "minItems": 1 },
+    "source_id": { "type": "string" },
+    "source_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "source_records": { "type": "array", "items": { "type": "object" } },
+    "functions": { "type": "array", "items": { "type": "string" } },
+    "cautions": { "type": "array", "items": { "type": "string" } },
+    "usage_note": { "type": "string" },
+    "keywords": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "visibility": { "type": "array", "items": { "enum": ["doctor", "patient", "student"] }, "minItems": 1 },
+    "evidence_level": { "type": "string" }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "care_opd.causal_ablation_matrix.v1",
+  "description": "Result-blind fresh-vs-stale replay. Both arms use matched request IDs and the same current-policy initialization.",
+  "variants": [
+    {
+      "name": "fresh_on_policy",
+      "data_view": "fresh_matched.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "use_risk_weighting": true,
+        "use_teacher_trust": true,
+        "retain_outside_repair": true
+      }
+    },
+    {
+      "name": "stale_replay",
+      "data_view": "stale_matched.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "use_risk_weighting": true,
+        "use_teacher_trust": true,
+        "retain_outside_repair": true
+      }
+    }
+  ]
+}
+

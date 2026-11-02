@@ -1,0 +1,50 @@
+.conda/
+.conda_pkgs/
+.git-local/
+.venv/
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+
+# Local runtime data
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+guardtcm_dev.db
+
+# Personal notes and local documentation drafts
+DEVELOPMENT_LOG.md
+TECHNICAL_DOCUMENTATION.md
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+
+# Local AI runtime and service environments
+runtime/*
+!runtime/runtime_manifest.json.example
+backend/runtime/*
+!backend/runtime/.gitkeep
+services/lightrag/.venv/
+services/lightrag/.env
+backend/app/data_pipeline/raw/*
+!backend/app/data_pipeline/raw/.gitignore
+!backend/app/data_pipeline/raw/README.md
+
+# Editor and OS noise
+.DS_Store
+.idea/
+.vscode/

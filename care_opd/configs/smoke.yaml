@@ -1,0 +1,63 @@
+project:
+  name: care_opd_smoke
+  seed: 7
+  output_root: runs/smoke
+
+data:
+  knowledge: data/knowledge/tcm_workflow_seed.json
+  output_dir: data/generated_smoke
+  train_episodes: 40
+  dev_episodes: 12
+  test_episodes: 20
+  max_steps: 6
+  paired_nuisance: true
+  counterfactuals_per_failure: 4
+
+models:
+  student: Qwen/Qwen3.5-4B
+  teacher: Qwen/Qwen3.5-9B
+  same_tokenizer_required: true
+  dtype: bfloat16
+  load_in_4bit: false
+  max_length: 1024
+  max_new_tokens: 128
+
+online:
+  rounds: 1
+  rollouts_per_round: 16
+  temperature: 0.8
+  top_p: 0.95
+
+optimization:
+  method: care_opd
+  divergence: jsd
+  jsd_beta: 0.9
+  temperature: 1.0
+  causal_mask: true
+  trust_mask: true
+  trust_log_ratio: 3.0
+  clean_retention_weight: 0.20
+  hard_oracle_ce_weight: 0.10
+  learning_rate: 2.0e-5
+  epochs_per_round: 1
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 1
+  save_steps: 10
+  eval_steps: 10
+
+lora:
+  enabled: true
+  rank: 8
+  alpha: 16
+  dropout: 0.05
+
+evaluation:
+  seeds: [7]
+  clean_episodes: 10
+  single_failure_episodes: 10
+  composed_failure_episodes: 10
+  ood_episodes: 10
+  bootstrap_samples: 100
+  confidence: 0.95
+  max_steps: 6
+  primary_metric: paired_risk_adjusted_recovery

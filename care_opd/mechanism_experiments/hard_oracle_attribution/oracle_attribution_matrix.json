@@ -1,0 +1,86 @@
+{
+  "schema_version": "care_opd.causal_ablation_matrix.v1",
+  "description": "One-round matched hard-oracle attribution. All arms share initialization, on-policy rows, row order, optimizer updates, and seed. The two 2x2 pairs differ only in hard_oracle_ce_weight; oracle_ce_only_on_policy tests sufficiency.",
+  "variants": [
+    {
+      "name": "care_with_oracle_ce",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "random_mask_seed": 20260815,
+        "use_risk_weighting": true,
+        "oracle_risk_weighting_mode": "enabled",
+        "use_teacher_trust": true,
+        "retain_outside_repair": true,
+        "distillation_coefficient": 1.0,
+        "retention_coefficient": 0.2,
+        "hard_oracle_ce_weight": 0.25
+      }
+    },
+    {
+      "name": "care_without_oracle_ce",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "random_mask_seed": 20260815,
+        "use_risk_weighting": true,
+        "oracle_risk_weighting_mode": "enabled",
+        "use_teacher_trust": true,
+        "retain_outside_repair": true,
+        "distillation_coefficient": 1.0,
+        "retention_coefficient": 0.2,
+        "hard_oracle_ce_weight": 0.0
+      }
+    },
+    {
+      "name": "gkd_without_oracle_ce",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "full",
+        "random_mask_seed": 20260815,
+        "use_risk_weighting": false,
+        "oracle_risk_weighting_mode": "enabled",
+        "use_teacher_trust": false,
+        "retain_outside_repair": false,
+        "distillation_coefficient": 1.0,
+        "retention_coefficient": 0.0,
+        "hard_oracle_ce_weight": 0.0
+      }
+    },
+    {
+      "name": "gkd_plus_same_oracle_ce",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "full",
+        "random_mask_seed": 20260815,
+        "use_risk_weighting": false,
+        "oracle_risk_weighting_mode": "enabled",
+        "use_teacher_trust": false,
+        "retain_outside_repair": false,
+        "distillation_coefficient": 1.0,
+        "retention_coefficient": 0.0,
+        "hard_oracle_ce_weight": 0.25
+      }
+    },
+    {
+      "name": "oracle_ce_only_on_policy",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "random_mask_seed": 20260815,
+        "use_risk_weighting": false,
+        "oracle_risk_weighting_mode": "enabled",
+        "use_teacher_trust": false,
+        "retain_outside_repair": false,
+        "distillation_coefficient": 0.0,
+        "retention_coefficient": 0.0,
+        "hard_oracle_ce_weight": 0.25
+      }
+    }
+  ]
+}

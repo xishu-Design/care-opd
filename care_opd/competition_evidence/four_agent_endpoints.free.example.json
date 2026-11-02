@@ -1,0 +1,75 @@
+{
+  "schema_version": "care_opd.competition.four_agent_execution.v1",
+  "primary_system_id": "shennong_sanyan_full",
+  "generation": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 1200,
+    "seed": 42,
+    "timeout_seconds": 120.0,
+    "retries": 2,
+    "retry_backoff_seconds": 1.0,
+    "checkpoint_every": 1,
+    "progress_every": 12
+  },
+  "systems": [
+    {
+      "system_id": "shennong_sanyan_full",
+      "display_name_private": "神农三言完整系统",
+      "kind": "project_agent",
+      "mode": "system_api",
+      "base_url": "http://127.0.0.1:8000",
+      "expected_backend_provider_env": "SHENNONG_BACKEND_PROVIDER",
+      "expected_backend_model_env": "SHENNONG_BACKEND_MODEL",
+      "provision_secret_env": "CARE_THREE_ROLE_PROVISION_SECRET",
+      "private_eval_key_env": "CARE_THREE_ROLE_BACKEND_EVAL_KEY",
+      "expected_backend_generation": {
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "seed": 42,
+        "max_output_tokens": 1200,
+        "max_input_tokens": 6000
+      }
+    },
+    {
+      "system_id": "cloudflare_api_agent",
+      "display_name_private": "Cloudflare Workers AI 对照智能体",
+      "kind": "external_api_agent",
+      "mode": "openai_compatible",
+      "provider_id": "cloudflare_workers_ai",
+      "base_url_template": "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/v1",
+      "model": "@cf/zai-org/glm-4.7-flash",
+      "api_key_env": "CLOUDFLARE_API_TOKEN",
+      "official_docs": "https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/",
+      "free_tier_docs": "https://developers.cloudflare.com/workers-ai/platform/pricing/",
+      "data_handling_docs": "https://developers.cloudflare.com/workers-ai/platform/data-usage/"
+    },
+    {
+      "system_id": "groq_api_agent",
+      "display_name_private": "Groq API 对照智能体",
+      "kind": "external_api_agent",
+      "mode": "openai_compatible",
+      "provider_id": "groq",
+      "base_url": "https://api.groq.com/openai/v1",
+      "model": "qwen/qwen3.6-27b",
+      "api_key_env": "GROQ_API_KEY",
+      "official_docs": "https://console.groq.com/docs/openai",
+      "free_tier_docs": "https://console.groq.com/docs/rate-limits",
+      "data_handling_docs": "https://console.groq.com/docs/your-data",
+      "required_account_setting": "Enable Zero Data Retention before authorized real-record execution"
+    },
+    {
+      "system_id": "cerebras_api_agent",
+      "display_name_private": "Cerebras API 对照智能体",
+      "kind": "external_api_agent",
+      "mode": "openai_compatible",
+      "provider_id": "cerebras",
+      "base_url": "https://api.cerebras.ai/v1",
+      "model": "gpt-oss-120b",
+      "api_key_env": "CEREBRAS_API_KEY",
+      "official_docs": "https://inference-docs.cerebras.ai/resources/openai",
+      "free_tier_docs": "https://inference-docs.cerebras.ai/support/rate-limits",
+      "data_handling_docs": "https://www.cerebras.ai/terms-of-service"
+    }
+  ]
+}

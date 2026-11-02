@@ -1,0 +1,39 @@
+{
+  "schema_version": "care-opd-efficiency-analysis-spec-v1",
+  "status": "FROZEN_BEFORE_MEASUREMENT",
+  "models": [
+    "clean_sft",
+    "gkd_full",
+    "care_opd"
+  ],
+  "sample": {
+    "source": "formal QZBC retrospective family-clean request-ID view",
+    "size": 200,
+    "balance": "50 requests per each of four QZBC variants",
+    "selection": "smallest SHA256(20260813 + NUL + request_id) within variant",
+    "result_blind": true
+  },
+  "generation": {
+    "same_single_gpu": true,
+    "sequential_models": true,
+    "batch_size": 1,
+    "dtype": "bfloat16",
+    "enable_thinking": false,
+    "do_sample": false,
+    "max_new_tokens": 1200,
+    "warmup_requests": 5
+  },
+  "primary_metrics": [
+    "generation latency mean/p50/p95",
+    "aggregate generated tokens per second",
+    "peak allocated and reserved CUDA memory",
+    "mean output-token count"
+  ],
+  "architecture_metrics": [
+    "parameter count",
+    "checkpoint weight bytes",
+    "model class and config architecture",
+    "actual model-suite content fingerprint"
+  ],
+  "claim_boundary": "Descriptive deployment-cost audit; not task success or causal training evidence. CARE training-time verifier and teacher calls are outside the deployment path."
+}

@@ -1,0 +1,51 @@
+baselines:
+  frozen:
+    kind: inference
+    description: Unmodified Qwen3.5-4B.
+  reflexion:
+    kind: inference
+    description: Frozen model with explicit verbal failure reflection and bounded retry.
+  clean_sft:
+    kind: train_sft
+    dataset_view: clean_oracle
+  recovery_sft:
+    kind: train_sft
+    dataset_view: full_recovery
+  direct_revision_sft:
+    kind: train_sft
+    dataset_view: first_failure_revision
+  agent_r_style:
+    kind: iterative_sft
+    dataset_view: transition_splice
+    online_rounds: 3
+  recovery_dpo:
+    kind: train_dpo
+    dataset_view: verified_pairs
+  seqkd:
+    kind: train_sft
+    dataset_view: teacher_trajectories
+  supervised_kd:
+    kind: train_opd
+    on_policy_fraction: 0.0
+    causal_mask: false
+    risk_weighting: false
+  gkd_full:
+    kind: train_opd
+    on_policy_fraction: 1.0
+    causal_mask: false
+    risk_weighting: false
+    trust_mask: false
+  tropd_full:
+    kind: train_opd
+    on_policy_fraction: 1.0
+    causal_mask: false
+    risk_weighting: false
+    trust_mask: true
+  care_opd:
+    kind: train_opd
+    on_policy_fraction: 1.0
+    causal_mask: true
+    risk_weighting: true
+    trust_mask: true
+    clean_retention: true
+

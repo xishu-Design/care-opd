@@ -1,0 +1,29 @@
+name: guardtcm
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - fastapi
+  - sqlalchemy
+  - uvicorn
+  - pydantic
+  - pydantic-settings
+  - alembic
+  - pytest
+  - httpx
+  - pyjwt
+  - passlib
+  - bcrypt
+  - python-multipart
+  - email-validator
+  - pyyaml
+  - pyarrow
+  - pypinyin
+  - pip:
+      - langgraph>=1.0.0
+      - langchain>=1.0.0
+      - lightrag-hku[api]>=1.4.0
+      - graphiti-core[falkordblite]==0.29.2
+      - mem0ai==2.0.12
+      - ollama==0.6.2

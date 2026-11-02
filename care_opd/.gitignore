@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+.venv-*/
+.testdeps/
+.tmp/
+artifacts/
+checkpoints/
+runs/
+data/qzbc_formal/
+data/generated/
+data/on_policy/
+*.log

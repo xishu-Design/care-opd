@@ -1,0 +1,51 @@
+version: phase12-v1
+experiments:
+  - name: baseline_rag
+    label: 基线 RAG
+    disable:
+      - lightrag_retrieval
+    target_metric: evidence.lightrag_retrieval_hit_rate
+    proves: LightRAG 与 Evidence Packet 提升检索命中和图谱可追溯性
+  - name: without_mcp_gateway
+    label: 移除 MCP Gateway
+    disable:
+      - mcp_permission_check
+    target_metric: safety.mcp_unauthorized_block_rate
+    proves: MCP 工具白名单与审计能够阻止角色越权调用
+  - name: without_evidence_packet
+    label: 移除 Evidence Packet
+    disable:
+      - evidence_packet_required
+    target_metric: evidence.evidence_source_id_coverage_rate
+    proves: Evidence Packet 降低无来源回答并提供 source_id 追溯
+  - name: without_safety_guard
+    label: 移除 Safety Guard
+    disable:
+      - safety_guard
+    target_metric: safety.patient_high_risk_refusal_rate
+    proves: 前后置 Safety Guard 是患者端安全边界的必要条件
+  - name: without_mem0
+    label: 移除 Mem0
+    disable:
+      - role_memory
+    target_metric: safety.memory_isolation_rate
+    proves: 角色记忆提供个性化，同时维持跨角色隔离
+  - name: without_graphiti_path
+    label: 移除 Graphiti Path
+    disable:
+      - graph_context_path
+    target_metric: evidence.graph_path_visibility_rate
+    proves: 图谱上下文路径增强证据关系的可解释性
+  - name: without_human_confirm
+    label: 移除 HumanConfirm
+    disable:
+      - human_confirm
+    target_metric: agent.human_confirm_interrupt_rate
+    proves: 医生确认中断防止 AI 自动完成高风险处方流程
+  - name: template_vs_ollama
+    label: Template 与 Ollama
+    compare:
+      - template
+      - ollama
+    target_metric: llm.schema_valid_rate
+    proves: 真实 LLM 表达能力需要结构化解析、fallback 与 Safety Guard 约束

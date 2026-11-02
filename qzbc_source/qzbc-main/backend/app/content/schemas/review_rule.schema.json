@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardTCM Review Rule",
+  "type": "object",
+  "required": ["rule_id", "rule_type", "name", "enabled", "risk_level", "applies_to_roles", "condition", "message", "evidence_query", "source_id"],
+  "properties": {
+    "rule_id": { "type": "string", "minLength": 1 },
+    "rule_type": { "type": "string", "minLength": 1 },
+    "rule_category": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
+    "enabled": { "type": "boolean" },
+    "risk_level": { "enum": ["green", "yellow", "orange", "red", "low", "medium", "high"] },
+    "applies_to_roles": { "type": "array", "items": { "enum": ["doctor", "student", "patient"] }, "minItems": 1 },
+    "condition": { "type": "object", "minProperties": 1 },
+    "message": { "type": "string", "minLength": 1 },
+    "student_explanation": { "type": "string" },
+    "evidence_query": { "type": "string", "minLength": 1 },
+    "requires_doctor_confirmation": { "type": "boolean" },
+    "source_id": { "type": "string", "minLength": 1 },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": true
+}

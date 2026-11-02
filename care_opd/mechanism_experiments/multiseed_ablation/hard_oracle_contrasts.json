@@ -1,0 +1,36 @@
+{
+  "schema_version": "care_opd.multiseed_ablation_contrasts.v1",
+  "description": "Pre-specified paired hard-oracle attribution contrasts. Every delta is left minus right within the same training seed.",
+  "contrasts": [
+    {
+      "name": "oracle_increment_within_care",
+      "left": "care_with_oracle_ce",
+      "right": "care_without_oracle_ce",
+      "definition": "Increment from hard-oracle CE inside the CARE configuration."
+    },
+    {
+      "name": "oracle_increment_within_gkd",
+      "left": "gkd_plus_same_oracle_ce",
+      "right": "gkd_without_oracle_ce",
+      "definition": "Increment from the same hard-oracle CE inside the full-response GKD configuration."
+    },
+    {
+      "name": "localized_package_without_oracle",
+      "left": "care_without_oracle_ce",
+      "right": "gkd_without_oracle_ce",
+      "definition": "CARE package versus GKD when neither receives hard-oracle CE."
+    },
+    {
+      "name": "localized_package_with_matched_oracle",
+      "left": "care_with_oracle_ce",
+      "right": "gkd_plus_same_oracle_ce",
+      "definition": "CARE package versus GKD when both receive hard-oracle CE weight 0.25."
+    },
+    {
+      "name": "oracle_only_sufficiency",
+      "left": "oracle_ce_only_on_policy",
+      "right": "gkd_without_oracle_ce",
+      "definition": "Localized on-policy hard-oracle CE alone versus full-response GKD; a sufficiency control, not a single-switch causal pair."
+    }
+  ]
+}

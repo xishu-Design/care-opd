@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardTCM Learning Case",
+  "type": "object",
+  "required": ["case_id", "title", "case_type", "visibility", "deidentified", "prescription", "expected_risks", "standard_analysis", "knowledge_points", "source_id"],
+  "properties": {
+    "case_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "case_type": { "type": "string" },
+    "visibility": { "const": "student_learning" },
+    "deidentified": { "const": true },
+    "patient_profile": { "type": "object" },
+    "prescription": { "type": "object" },
+    "expected_risks": { "type": "array", "items": { "type": "string" } },
+    "standard_analysis": { "type": "string" },
+    "knowledge_points": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "source_id": { "type": "string", "minLength": 1 },
+    "source_record_id": { "type": "string" },
+    "review_status": { "type": "string" }
+  },
+  "additionalProperties": true
+}

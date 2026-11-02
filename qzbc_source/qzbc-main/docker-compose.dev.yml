@@ -1,0 +1,88 @@
+version: "3.8"
+
+services:
+  backend:
+    image: python:3.12-slim
+    container_name: guardtcm-backend-dev
+    working_dir: /app/backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - backend_pip_cache:/root/.cache/pip
+    environment:
+      APP_ENV: development
+      JWT_SECRET_KEY: guardtcm-dev-secret-key-change-in-production
+      CORS_ORIGINS: '["*"]'
+      LLM_PROVIDER: ollama
+      LLM_ALLOW_FALLBACK: "true"
+      KNOWLEDGE_BACKEND: lightrag
+      LIGHTRAG_ENABLED: "true"
+      LIGHTRAG_MODE: api
+      LIGHTRAG_ALLOW_FALLBACK: "true"
+      LIGHTRAG_API_BASE_URL: http://host.docker.internal:9621
+      LIGHTRAG_API_KEY: guardtcm-local-change-me
+      LIGHTRAG_WORKING_DIR: /app/runtime/lightrag/active/current
+      LIGHTRAG_INPUT_DIR: /app/runtime/lightrag/active/input
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      OLLAMA_MODEL: qwen2.5:7b
+      OLLAMA_EMBEDDING_MODEL: bge-m3
+      OLLAMA_NUM_CTX: "32768"
+      GRAPH_BACKEND: graphiti
+      MEMORY_BACKEND: mem0
+      GRAPHITI_DB_PATH: /app/runtime/graphiti/guardtcm.db
+      GRAPHITI_DATABASE: guardtcm
+      GRAPHITI_GROUP_PREFIX: guardtcm
+      GRAPHITI_TELEMETRY_ENABLED: "false"
+      MEM0_DIR: /app/runtime/mem0/meta
+      MEM0_QDRANT_PATH: /app/runtime/mem0/qdrant
+      MEM0_HISTORY_DB_PATH: /app/runtime/mem0/history.db
+      MEM0_TELEMETRY: "false"
+      QA_KNOWLEDGE_ENABLED: "true"
+      QA_KNOWLEDGE_INDEX_PATH: /app/runtime/qa_knowledge/qa_index.db
+      QA_KNOWLEDGE_CANDIDATE_LIMIT: "30"
+      QA_KNOWLEDGE_RERANK_ENABLED: "true"
+      QA_KNOWLEDGE_RERANK_LIMIT: "8"
+      CONVERSATION_CONTEXT_ENABLED: "true"
+      CONVERSATION_RECENT_TURNS: "6"
+      CONVERSATION_CONTEXT_MAX_CHARS: "6000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      - /bin/sh
+      - -lc
+      - |
+        python -m pip install --upgrade pip
+        python -m pip install -r /app/requirements.txt
+        alembic upgrade head
+        python scripts/seed_demo.py
+        if [ ! -f "$$QA_KNOWLEDGE_INDEX_PATH" ] || [ guardtcm_dev.db -nt "$$QA_KNOWLEDGE_INDEX_PATH" ]; then
+          python scripts/build_qa_knowledge_index.py
+        fi
+        python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    image: node:20-bookworm-slim
+    container_name: guardtcm-frontend-dev
+    working_dir: /app/frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app/frontend
+      - frontend_node_modules:/app/frontend/node_modules
+      - frontend_npm_cache:/root/.npm
+    environment:
+      VITE_API_BASE_URL: http://127.0.0.1:8000
+    depends_on:
+      - backend
+    command:
+      - /bin/sh
+      - -lc
+      - |
+        npm install
+        npm run dev -- --host 0.0.0.0
+
+volumes:
+  backend_pip_cache:
+  frontend_node_modules:
+  frontend_npm_cache:

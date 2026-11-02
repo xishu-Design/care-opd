@@ -1,0 +1,44 @@
+{
+  "schema_version": "care_opd.causal_ablation_matrix.v1",
+  "description": "Strict one-round localization control: verifier-selected semantic tokens versus a deterministic random response-token mask with the exact same per-example token count and weight multiset. Trust, retention, and hard-oracle CE are disabled in both arms so selected tokens are also the effective supervised tokens.",
+  "variants": [
+    {
+      "name": "localized_kd_only",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "random_mask_seed": 20260815,
+        "use_risk_weighting": true,
+        "oracle_risk_weighting_mode": "disabled",
+        "use_teacher_trust": false,
+        "retain_outside_repair": false,
+        "distillation_coefficient": 1.0,
+        "retention_coefficient": 0.0,
+        "hard_oracle_ce_weight": 0.0,
+        "max_length": 4096,
+        "max_response_tokens": 1200,
+        "add_eos": true
+      }
+    },
+    {
+      "name": "random_token_kd_only",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "random_token_matched",
+        "random_mask_seed": 20260815,
+        "use_risk_weighting": true,
+        "oracle_risk_weighting_mode": "disabled",
+        "use_teacher_trust": false,
+        "retain_outside_repair": false,
+        "distillation_coefficient": 1.0,
+        "retention_coefficient": 0.0,
+        "hard_oracle_ce_weight": 0.0,
+        "max_length": 4096,
+        "max_response_tokens": 1200,
+        "add_eos": true
+      }
+    }
+  ]
+}

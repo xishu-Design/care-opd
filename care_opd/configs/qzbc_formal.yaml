@@ -1,0 +1,83 @@
+project:
+  name: qzbc_care_opd_qwen35_4b
+  seed: 42
+  output_root: runs/qzbc_base_model
+
+# These are Hugging Face checkpoints used for post-training.  The final merged
+# student is converted to GGUF and registered under a new Ollama model name.
+models:
+  student: Qwen/Qwen3.5-4B
+  teacher: Qwen/Qwen3.5-9B
+  same_tokenizer_required: true
+  dtype: bfloat16
+  attn_implementation: sdpa
+  load_in_4bit: false
+  gradient_checkpointing: true
+  max_length: 4096
+  # Match qzbc's deployed LLM_MAX_OUTPUT_TOKENS contract.
+  max_new_tokens: 1200
+
+data:
+  # 12k clean qzbc-native seeds; compiler expands each into clean and three
+  # controlled Evidence-Packet recovery variants.
+  seed_examples: 12000
+  train_ratio: 0.80
+  dev_ratio: 0.10
+  test_ratio: 0.10
+  variants:
+    - clean
+    - bad_history
+    - source_outage
+    - evidence_conflict
+
+online:
+  rounds: 3
+  rollouts_per_round: 12000
+  temperature: 0.8
+  top_p: 0.95
+
+optimization:
+  method: care_opd
+  divergence: jsd
+  jsd_beta: 0.9
+  temperature: 1.0
+  causal_mask: true
+  trust_mask: true
+  trust_log_ratio: 3.0
+  min_teacher_margin: 0.0
+  clean_retention_weight: 0.20
+  hard_oracle_ce_weight: 0.25
+  # Score long responses in a 768-position chunk followed by the remainder.
+  # Lower this only if dense vocabulary logits exceed GPU memory.
+  response_chunk_size: 768
+  learning_rate: 2.0e-5
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  epochs_per_round: 1
+  per_device_batch_size: 1
+  gradient_accumulation_steps: 32
+  max_grad_norm: 1.0
+  # Warm-start is already reusable as a merged checkpoint in formal reruns.
+  # Keep later OPD/baseline stages from accumulating 8+ GiB checkpoints every
+  # 25 steps on the shared server filesystem.
+  save_steps: 100
+
+lora:
+  enabled: true
+  rank: 64
+  alpha: 128
+  dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+deployment:
+  qzbc_model_name: qwen3.5-4b-care-opd
+  ollama_num_ctx: 32768
+  ollama_temperature: 0.2
+  fallback_allowed_during_evaluation: false

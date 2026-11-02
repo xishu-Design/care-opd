@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardTCM Diet Precaution",
+  "type": "object",
+  "required": ["entry_id", "message", "forbidden_as_treatment", "source_id", "keywords", "visibility"],
+  "properties": {
+    "entry_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string" },
+    "related_entities": { "type": "array", "items": { "type": "string" } },
+    "advice_type": { "type": "string" },
+    "message": { "type": "string", "minLength": 1 },
+    "forbidden_as_treatment": { "const": true },
+    "source_id": { "type": "string", "minLength": 1 },
+    "keywords": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "visibility": { "type": "array", "items": { "enum": ["doctor", "patient", "student"] }, "minItems": 1 }
+  },
+  "additionalProperties": true
+}

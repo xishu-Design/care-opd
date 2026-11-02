@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "care-opd"
+version = "0.1.0"
+description = "qzbc-native localized on-policy distillation for a standalone replacement base model"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+dependencies = [
+  "accelerate>=1.2",
+  "datasets>=3.2",
+  "numpy>=1.26",
+  "peft>=0.14",
+  "pydantic>=2.9",
+  "pyyaml>=6.0",
+  "safetensors>=0.4",
+  "scipy>=1.12",
+  "torch>=2.5",
+  "tqdm>=4.66",
+  "transformers>=5.0",
+  "trl>=0.16",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.8"]
+quant = ["bitsandbytes>=0.45"]
+
+[project.scripts]
+care-synthesize = "care_opd.synthesis:main"
+care-collect = "care_opd.rollout:main"
+care-train-opd = "care_opd.train_opd:main"
+care-train-sft = "care_opd.train_sft:main"
+care-train-dpo = "care_opd.train_dpo:main"
+care-benchmark = "care_opd.benchmark:main"
+care-contamination = "care_opd.contamination:main"
+care-evaluate = "care_opd.evaluate:main"
+care-run = "care_opd.experiment:main"
+care-qzbc-data = "care_opd.qzbc_dataset:main"
+care-qzbc-seeds = "care_opd.qzbc_seed_builder:main"
+care-qzbc-collect = "care_opd.qzbc_rollout:main"
+care-export-qzbc-model = "care_opd.export_model:main"
+care-qzbc = "care_opd.qzbc_bridge:main"
+care-qzbc-native-eval = "care_opd.qzbc_native_eval:main"
+care-qzbc-agent-ab = "care_opd.qzbc_agent_ab:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

@@ -1,0 +1,57 @@
+{
+  "schema_version": "tcmeval-pa-controlled-analysis-v1",
+  "benchmark": "TCMEval-PA-v3-controlled-option-permutation",
+  "paired_unit": "official TCMEval-PA ID",
+  "primary_effectiveness": "perturbed_task_success_rate",
+  "primary_robustness": [
+    "conditional_retention",
+    "regression_rate"
+  ],
+  "diagnostics": [
+    "robustness_drop_pp",
+    "prediction_consistency",
+    "worst_perturbation_tsr",
+    "clean_correct_perturbed_wrong",
+    "clean_wrong_perturbed_correct"
+  ],
+  "perturbation": {
+    "family": "option_permutation",
+    "mapping_key": "official ID",
+    "fixed_sha256_mapping": true,
+    "forced_nonidentity": true,
+    "gold_and_prediction_remapped_to_canonical_labels": true
+  },
+  "confidence_interval": {
+    "type": "percentile cluster bootstrap",
+    "cluster": "normalized question stem",
+    "normalized_stem_definition": "remove all Unicode whitespace from the question stem",
+    "replicates": 10000,
+    "seed": 20260808,
+    "confidence_level": 0.95,
+    "reported_for": [
+      "clean_task_success_rate",
+      "perturbed_task_success_rate",
+      "conditional_retention",
+      "regression_rate"
+    ]
+  },
+  "comparison": {
+    "primary_baselines": [
+      "clean_sft",
+      "gkd_full"
+    ],
+    "paired_cluster_bootstrap": true,
+    "noninferiority_margin_absolute": -0.02,
+    "joint_gate_endpoints": [
+      "perturbed_task_success_rate",
+      "conditional_retention"
+    ],
+    "gate_rule": "both CARE-minus-baseline paired cluster-bootstrap 95% CI lower bounds must exceed -0.02; passing means preserved/non-inferior, not superior",
+    "exploratory_test": "two-sided exact McNemar on perturbed task success; no multiplicity correction"
+  },
+  "reporting_separation": {
+    "official_original_scores": "read-only imported table",
+    "controlled_derived_scores": "separate paired table",
+    "mixing_forbidden": true
+  }
+}

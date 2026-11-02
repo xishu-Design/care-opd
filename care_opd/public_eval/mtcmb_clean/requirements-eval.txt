@@ -1,0 +1,4 @@
+bert-score==0.3.13
+jieba==0.42.1
+rouge-chinese==1.0.3
+sacrebleu==2.5.1

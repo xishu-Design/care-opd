@@ -1,0 +1,44 @@
+{
+  "schema_version": "care-opd-unified-effectiveness-robustness-v1",
+  "unit_endpoint": {
+    "name": "task_success",
+    "type": "binary",
+    "definition": "One only when the preregistered task answer and all task-critical constraints are exactly satisfied; otherwise zero."
+  },
+  "primary_endpoints": {
+    "effectiveness": "perturbed_task_success_rate",
+    "robustness": "conditional_retention"
+  },
+  "required_fields": {
+    "clean_task_success_rate": "mean(clean_task_success)",
+    "perturbed_task_success_rate": "mean(perturbed_task_success)",
+    "conditional_retention": "count(clean_success=1 and perturbed_success=1) / count(clean_success=1)",
+    "regression_rate": "count(clean_success=1 and perturbed_success=0) / count(clean_success=1)",
+    "robustness_drop_pp": "100 * (clean_task_success_rate - perturbed_task_success_rate)",
+    "prediction_consistency": "mean(clean_parse_ok and perturbed_parse_ok and canonical_clean_prediction == canonical_perturbed_prediction); any parse failure scores inconsistent",
+    "worst_perturbation_tsr": "minimum task-success rate over preregistered perturbation families",
+    "clean_correct_perturbed_wrong": "paired count of regressions",
+    "clean_wrong_perturbed_correct": "paired count of improvements",
+    "paired_units": "number of clean/perturbed semantic pairs"
+  },
+  "interpretation": {
+    "clean_task_success_rate": "Clean-task capability; required context for every robustness claim.",
+    "perturbed_task_success_rate": "Primary robust effectiveness endpoint.",
+    "conditional_retention": "Primary robustness endpoint; must never be shown without clean and perturbed TSR.",
+    "regression_rate": "Equivalent lower-is-better form of one minus conditional retention.",
+    "robustness_drop_pp": "Diagnostic because clean-wrong to perturbed-correct improvements can offset regressions.",
+    "prediction_consistency": "Diagnostic only because an always-wrong model can be perfectly consistent."
+  },
+  "reporting_contract": {
+    "official_clean_and_derived_robustness_are_separate": true,
+    "per_benchmark_results_required": true,
+    "sample_micro_average_across_benchmarks_forbidden": true,
+    "benchmark_macro_average_allowed_with_components": true,
+    "paired_item_outputs_required": true,
+    "overlap_full_and_clean_views_required": true,
+    "main_pairwise_comparisons": [
+      "care_opd_vs_clean_sft",
+      "care_opd_vs_gkd_full"
+    ]
+  }
+}

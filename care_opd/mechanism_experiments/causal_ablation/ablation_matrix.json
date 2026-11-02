@@ -1,0 +1,75 @@
+{
+  "schema_version": "care_opd.causal_ablation_matrix.v1",
+  "description": "One-round, equal-optimizer-budget mechanism ablations. All arms start from the same student checkpoint and consume the same row IDs in the same order.",
+  "variants": [
+    {
+      "name": "full_selected",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "use_risk_weighting": true,
+        "use_teacher_trust": true,
+        "retain_outside_repair": true
+      }
+    },
+    {
+      "name": "without_retention",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "use_risk_weighting": true,
+        "use_teacher_trust": true,
+        "retain_outside_repair": false,
+        "retention_coefficient": 0.0
+      }
+    },
+    {
+      "name": "matched_full_response",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "full",
+        "use_risk_weighting": true,
+        "use_teacher_trust": true,
+        "retain_outside_repair": false,
+        "retention_coefficient": 0.0
+      }
+    },
+    {
+      "name": "outside_only",
+      "data_view": "outside_only.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "use_risk_weighting": true,
+        "use_teacher_trust": true,
+        "retain_outside_repair": false,
+        "retention_coefficient": 0.0
+      }
+    },
+    {
+      "name": "without_risk",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "use_risk_weighting": false,
+        "use_teacher_trust": true,
+        "retain_outside_repair": true
+      }
+    },
+    {
+      "name": "without_trust",
+      "data_view": "full_selected.jsonl",
+      "overrides": {
+        "baseline_mode": "care_opd",
+        "mask_mode": "span",
+        "use_risk_weighting": true,
+        "use_teacher_trust": false,
+        "retain_outside_repair": true
+      }
+    }
+  ]
+}

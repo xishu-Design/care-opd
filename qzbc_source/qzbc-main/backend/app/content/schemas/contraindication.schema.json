@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GuardTCM Contraindication",
+  "type": "object",
+  "required": ["entry_id", "title", "risk_type", "risk_level", "source_id", "keywords", "visibility"],
+  "properties": {
+    "entry_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "risk_type": { "type": "string", "minLength": 1 },
+    "related_entities": { "type": "array", "items": { "type": "string" } },
+    "condition": { "type": ["string", "object"] },
+    "risk_level": { "type": "string" },
+    "message_for_doctor": { "type": "string" },
+    "message_for_patient": { "type": "string" },
+    "message_for_student": { "type": "string" },
+    "source_id": { "type": "string", "minLength": 1 },
+    "keywords": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "visibility": { "type": "array", "items": { "enum": ["doctor", "patient", "student"] }, "minItems": 1 }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "care_opd.competition.local_model_suite.v1",
+  "selection_status": "FROZEN_BEFORE_ANY_BLIND_EVAL_GENERATION",
+  "selection_scope": "three locally deployed open-weight role-conditioned model baselines for end-to-end expert preference comparison",
+  "comparison_boundary": "The three baselines receive the same frozen role prompt and case payload through isolated local OpenAI-compatible endpoints, but they do not reproduce the complete Shennong Sanyan orchestration stack. Report them as local open-weight model baselines, not as three equivalent full Agent systems. This is a complete-project comparison, not a CARE-OPD causal ablation or clinical efficacy study.",
+  "models": [
+    {
+      "system_id": "huatuogpt3_local_medical_agent",
+      "display_name_private": "HuatuoGPT-3-8B 本地医疗角色模型基线",
+      "selection_role": "current Chinese medical-domain open-weight baseline; not a TCM-specialized model",
+      "repo_id": "FreedomIntelligence/HuatuoGPT-3-8B",
+      "requested_revision": "main",
+      "local_dir_name": "huatuogpt_3_8b",
+      "served_model_name": "huatuogpt3-local-medical-baseline",
+      "license_expected": "apache-2.0",
+      "reasoning_parser": "qwen3",
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      },
+      "trust_remote_code": false,
+      "license_note": "Hugging Face model-card metadata declares Apache-2.0; preserve the frozen model-card snapshot because the repository tree may not contain a standalone LICENSE file.",
+      "official_model_page": "https://huggingface.co/FreedomIntelligence/HuatuoGPT-3-8B",
+      "official_deployment_page": "https://github.com/FreedomIntelligence/HuatuoGPT-3"
+    },
+    {
+      "system_id": "glm4_local_role_model",
+      "display_name_private": "GLM-4-9B-0414 本地中文角色模型基线",
+      "selection_role": "independent Chinese-English general model-family baseline",
+      "repo_id": "zai-org/GLM-4-9B-0414",
+      "requested_revision": "main",
+      "local_dir_name": "glm_4_9b_0414",
+      "served_model_name": "glm4-local-role-baseline",
+      "license_expected": "mit",
+      "reasoning_parser": "",
+      "chat_template_kwargs": {},
+      "trust_remote_code": false,
+      "official_model_page": "https://huggingface.co/zai-org/GLM-4-9B-0414",
+      "official_deployment_page": "https://huggingface.co/zai-org/GLM-4-9B-0414"
+    },
+    {
+      "system_id": "internlm3_local_role_model",
+      "display_name_private": "InternLM3-8B-Instruct 本地中文角色模型基线",
+      "selection_role": "independent Chinese instruction and reasoning ecosystem baseline",
+      "repo_id": "internlm/internlm3-8b-instruct",
+      "requested_revision": "main",
+      "local_dir_name": "internlm3_8b_instruct",
+      "served_model_name": "internlm3-local-role-baseline",
+      "license_expected": "apache-2.0",
+      "reasoning_parser": "",
+      "chat_template_kwargs": {},
+      "trust_remote_code": false,
+      "official_model_page": "https://huggingface.co/internlm/internlm3-8b-instruct",
+      "official_deployment_page": "https://docs.vllm.ai/en/latest/models/supported_models/"
+    }
+  ]
+}

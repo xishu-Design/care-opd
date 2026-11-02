@@ -1,0 +1,20 @@
+[project]
+name = "guardtcm-backend"
+version = "1.0.0"
+description = "GuardTCM LangGraph agent orchestration backend"
+requires-python = ">=3.12"
+dependencies = [
+  "langgraph>=1.0.0",
+  "langchain>=1.0.0",
+  "lightrag-hku[api]==1.5.4",
+  "pyarrow>=17.0.0",
+  "pyyaml>=6.0",
+  "graphiti-core[falkordblite]==0.29.2",
+  "mem0ai==2.0.12",
+  "ollama==0.6.2",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["app/tests"]
+pythonpath = [".", ".."]
+addopts = "-q"

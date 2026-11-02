@@ -1,0 +1,55 @@
+# Local environments and caches
+.venv/
+.venv-*/
+.conda/
+.redteam_venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.cache/
+.tmp/
+
+# Secrets and local state
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.db
+*.db-*
+*.sqlite*
+*.log
+*.pid
+*.private.*
+
+# Models, runtime stores and generated outputs
+**/runs/
+**/runtime/
+**/artifacts/
+**/checkpoints/
+**/dist/
+**/build/
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.bin
+*.zip
+*.tar
+*.tar.gz
+
+# Dataset payloads and frozen predictions are not code-release assets
+*.jsonl
+*.parquet
+*.xlsx
+*.csv
+**/data/raw/
+**/data/processed/
+**/data/external/
+**/data/qzbc_formal/
+**/data/generated/
+**/data/on_policy/

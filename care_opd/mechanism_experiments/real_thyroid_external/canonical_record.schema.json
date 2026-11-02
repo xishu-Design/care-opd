@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/care-opd/real-thyroid-canonical-record-v1.schema.json",
+  "title": "CARE-OPD private real-thyroid canonical report record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "report_group_hmac",
+    "source_id",
+    "source_record_hmac",
+    "modality",
+    "split",
+    "linkage",
+    "source",
+    "entities",
+    "quality_private",
+    "annotation",
+    "governance",
+    "private_provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "care_opd.real_thyroid_external.v1"},
+    "case_id": {"type": "string", "pattern": "^THY-(US|PATH)-[0-9a-f]{24}$"},
+    "report_group_hmac": {"type": "string", "pattern": "^rg_[0-9a-f]{64}$"},
+    "source_id": {"type": "string"},
+    "source_record_hmac": {"type": "string", "pattern": "^src_[0-9a-f]{64}$"},
+    "modality": {"enum": ["thyroid_ultrasound", "thyroid_pathology"]},
+    "split": {"const": "locked_external_test"},
+    "linkage": {
+      "type": "object",
+      "required": [
+        "status",
+        "patient_group_hmac",
+        "encounter_group_hmac",
+        "lesion_group_hmac",
+        "site_code",
+        "time_bucket"
+      ],
+      "properties": {
+        "status": {"const": "unavailable_do_not_infer"},
+        "patient_group_hmac": {"type": "null"},
+        "encounter_group_hmac": {"type": "null"},
+        "lesion_group_hmac": {"type": "null"},
+        "site_code": {"type": "null"},
+        "time_bucket": {"type": "null"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "source_text_private",
+        "deidentification_status",
+        "model_input_allowed"
+      ],
+      "properties": {
+        "source_text_private": {"type": "string", "minLength": 1},
+        "deidentification_status": {"enum": ["unreviewed", "reviewed_private_use"]},
+        "model_input_allowed": {"type": "boolean"}
+      }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entity_id", "entity_status", "fields"],
+        "properties": {
+          "entity_id": {"type": "string"},
+          "entity_status": {"const": "candidate_unreviewed"},
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "field_path",
+                "candidate_value_private",
+                "candidate_origin",
+                "candidate_status",
+                "support_status",
+                "evidence_spans",
+                "normalized_value",
+                "uncertainty_reason"
+              ],
+              "properties": {
+                "field_path": {"type": "string"},
+                "candidate_value_private": {"type": ["string", "null"]},
+                "candidate_origin": {"const": "xlsx_structured_column"},
+                "candidate_status": {
+                  "enum": ["reported_candidate", "unresolved_missingness"]
+                },
+                "support_status": {"const": "unreviewed"},
+                "evidence_spans": {"type": "array", "maxItems": 0},
+                "normalized_value": {"type": "null"},
+                "uncertainty_reason": {"type": "null"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "quality_private": {"type": "object"},
+    "annotation": {"type": "object"},
+    "governance": {"type": "object"},
+    "private_provenance": {"type": "object"}
+  }
+}

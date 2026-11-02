@@ -1,0 +1,476 @@
+sources:
+  - source_id: SRC_TCM_DATA_FOR_ML
+    name: TCMDataForML
+    homepage: https://github.com/GuoxiangZu/TCMDataForML
+    download_url: https://github.com/GuoxiangZu/TCMDataForML.git
+    repository_url: https://github.com/GuoxiangZu/TCMDataForML
+    source_type: github_dataset
+    license: MIT
+    license_url: https://github.com/GuoxiangZu/TCMDataForML
+    allowed_use: import_allowed
+    data_format: csv_txt
+    expected_content:
+      - prescriptions
+      - herb_index
+    status: approved
+    notes: Use for formula/prescription learning data and herb-name candidates, not as clinical authority.
+    citation: GuoxiangZu/TCMDataForML GitHub repository
+
+  - source_id: SRC_MTCMB
+    name: MTCMB
+    homepage: https://github.com/Wayyuanyuan/MTCMB
+    download_url: https://github.com/Wayyuanyuan/MTCMB.git
+    repository_url: https://github.com/Wayyuanyuan/MTCMB
+    source_type: github_training_dataset
+    license: Apache-2.0
+    license_url: https://github.com/Wayyuanyuan/MTCMB/blob/main/LICENSE.txt
+    allowed_use: import_allowed
+    data_format: json_jsonl_csv_text
+    expected_content:
+      - deidentified_learning_cases
+      - question_answer
+      - evaluation_cases
+    status: approved
+    download_allowed: true
+    import_allowed: true
+    clinical_evidence_allowed: false
+    patient_visible: false
+    doctor_evidence_allowed: false
+    student_visible: true
+    evaluation_allowed: true
+    notes: Only deidentified, safety-checked items may enter student training and evaluation. Never use in patient content or doctor clinical Evidence Packets.
+    citation: Wayyuanyuan/MTCMB GitHub repository
+
+  - source_id: SRC_DRAGON_TCM
+    name: DragonTCM
+    homepage: https://huggingface.co/datasets/f-galkin/DragonTCM
+    download_url: https://huggingface.co/datasets/f-galkin/DragonTCM
+    repository_url: https://huggingface.co/datasets/f-galkin/DragonTCM
+    source_type: huggingface_dataset
+    license: CC-BY-NC-4.0
+    license_url: https://creativecommons.org/licenses/by-nc/4.0/
+    allowed_use: import_allowed
+    data_format: parquet
+    expected_content:
+      - herbs
+      - formula_compositions
+      - traditional_actions
+    status: approved
+    distribution_scope: noncommercial_only
+    clinical_evidence_allowed: false
+    patient_visible: false
+    # This permits catalog/graph browsing in the doctor workspace only. It does
+    # not make the source clinical evidence; clinical_evidence_allowed remains
+    # false and the API must not use it for recommendations or prescriptions.
+    doctor_evidence_allowed: true
+    student_visible: true
+    evaluation_allowed: false
+    notes: Non-commercial teaching and demonstration use only. Imported records are catalog and graph data, not clinical authority, patient advice, dosage guidance, or prescription recommendations.
+    citation: Fedor Galkin, DragonTCM dataset, Hugging Face, revision 5b535a4.
+
+  - source_id: SRC_TCM_MKG
+    name: TCM-MKG
+    homepage: https://zenodo.org/records/15395588
+    download_url: https://zenodo.org/records/15395588
+    repository_url: https://github.com/ZENGJingqi/GraphAI-for-TCM
+    source_type: zenodo_dataset
+    license: CC-BY-NC-4.0
+    license_url: https://creativecommons.org/licenses/by-nc/4.0/
+    allowed_use: import_allowed
+    data_format: tsv
+    expected_content:
+      - chinese_patent_medicine
+      - tcm_syndrome_and_treatment_terms
+      - herbal_piece_compositions
+    status: approved
+    distribution_scope: noncommercial_only
+    clinical_evidence_allowed: false
+    patient_visible: false
+    doctor_evidence_allowed: true
+    student_visible: true
+    evaluation_allowed: false
+    notes: Non-commercial catalog and doctor candidate retrieval only. Every imported formula must have source-linked composition, treatment-method terms, and TCM syndrome/disease terms; clinical use still requires doctor review.
+    citation: Zeng, J.; Jia, X. Traditional Chinese Medicine Multidimensional Knowledge Graph, Zenodo, v2, 2025, DOI 10.5281/zenodo.15395588.
+
+  - source_id: SRC_DRYAD_TCM_NETWORK
+    name: Comprehensive dataset of heterogeneous network structures in traditional Chinese medicine research
+    homepage: https://datadryad.org/dataset/doi:10.5061/dryad.wh70rxwx9
+    download_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11827087/supplementaryFiles
+    repository_url: https://doi.org/10.5061/dryad.wh70rxwx9
+    source_type: dryad_dataset
+    license: CC0
+    license_url: https://spdx.org/licenses/CC0-1.0.html
+    license_status: verified
+    allowed_use: import_allowed
+    data_format: csv
+    expected_content:
+      - herb_efficacy
+      - herb_symptom
+      - herb_herb
+    status: approved
+    download_allowed: true
+    import_allowed: true
+    clinical_evidence_allowed: false
+    patient_visible: false
+    doctor_evidence_allowed: true
+    student_visible: true
+    evaluation_allowed: false
+    notes: Dryad metadata confirms CC0. The official supplementary archive was obtained through Europe PMC and its hashes are recorded by the importer. Released CSV counts differ from the paper summary, so imports use actual deduplicated file rows. Herb-symptom rows require numeric P<0.05. English terms are locally translated to Chinese, marked pending medical review, and treated only as low-weight statistical associations rather than clinical evidence.
+    citation: Fathi, P.; Moghaddam Charkari, N. (2024), Dryad, DOI 10.5061/dryad.wh70rxwx9.
+
+  - source_id: SRC_DB4403_T142_2021
+    name: DB4403/T 142—2021 中药饮片处方审核规范
+    homepage: https://amr.sz.gov.cn/attachment/0/755/755971/8581454.pdf
+    download_url: https://amr.sz.gov.cn/attachment/0/755/755971/8581454.pdf
+    repository_url: https://amr.sz.gov.cn/
+    source_type: official_public_local_standard
+    license: OFFICIAL_PUBLIC_STANDARD_NO_OPEN_LICENSE
+    license_url: https://amr.sz.gov.cn/
+    allowed_use: reference_only
+    data_format: pdf
+    expected_content:
+      - prescription_review_requirements
+      - eighteen_antagonisms
+      - nineteen_incompatibilities
+    status: reference_only
+    download_allowed: true
+    import_allowed: factual_relationship_extraction_only
+    clinical_evidence_allowed: true
+    patient_visible: false
+    doctor_evidence_allowed: true
+    student_visible: true
+    evaluation_allowed: true
+    notes: Publicly accessible official local standard, but no open-data license was found. Only factual herb-pair relationships from Appendix C Table C.1 are stored with source location and hash; the source text is not redistributed as an open dataset.
+    citation: DB4403/T 142—2021, Appendix C, Table C.1, Shenzhen Administration for Market Regulation.
+
+  - source_id: SRC_SHENNONG_TCM_DATASET
+    name: ShenNong TCM Dataset
+    homepage: https://huggingface.co/datasets/michaelwzhu/ShenNong_TCM_Dataset
+    download_url: https://huggingface.co/datasets/michaelwzhu/ShenNong_TCM_Dataset
+    repository_url: https://huggingface.co/datasets/michaelwzhu/ShenNong_TCM_Dataset
+    source_type: huggingface_dataset
+    license: Apache-2.0
+    license_status: verified
+    distribution_scope: internal_only
+    content_risk_level: generated_medical_content
+    license_url: https://huggingface.co/datasets/michaelwzhu/ShenNong_TCM_Dataset
+    allowed_use: import_allowed
+    data_format: json_jsonl
+    expected_content:
+      - instruction_qa
+      - herb_efficacy_candidate
+      - symptom_association_candidate
+    status: approved
+    clinical_evidence_allowed: false
+    patient_visible: false
+    doctor_evidence_allowed: false
+    doctor_catalog_visible: true
+    student_visible: true
+    evaluation_allowed: false
+    notes: Internal-only Apache-2.0 instruction dataset. Generated medical content is not clinical authority and must never be exposed to patients as advice.
+    citation: michaelwzhu/ShenNong_TCM_Dataset Hugging Face dataset
+
+  - source_id: SRC_KNOWLEGDE_GRAPH_TCM
+    name: Knowlegde_Graph_TCM
+    homepage: https://github.com/search?q=Knowlegde_Graph_TCM&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: github_dataset_candidate
+    license: NO_LICENSE_FOUND
+    license_url: ""
+    allowed_use: no_import
+    data_format: unknown
+    expected_content: [knowledge_graph]
+    status: candidate
+    download_allowed: false
+    import_allowed: false
+    notes: No explicit repository license verified. Public access is not permission to import.
+    citation: Candidate repository name only
+
+  - source_id: SRC_TCM_NER_DATASETS
+    name: TCM_NER_datasets
+    homepage: https://github.com/search?q=TCM_NER_datasets&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: github_dataset_candidate
+    license: NO_LICENSE_FOUND
+    license_url: ""
+    allowed_use: no_import
+    data_format: unknown
+    expected_content: [ner]
+    status: candidate
+    download_allowed: false
+    import_allowed: false
+    notes: No explicit repository license verified. Keep registered but do not download or import.
+    citation: Candidate repository name only
+
+  - source_id: SRC_TCM_PRESCRIPTION_DATASETS
+    name: TCM-prescription-datasets
+    homepage: https://github.com/search?q=TCM-prescription-datasets&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: github_dataset_candidate
+    license: NO_LICENSE_FOUND
+    license_url: ""
+    allowed_use: no_import
+    data_format: unknown
+    expected_content: [prescriptions]
+    status: candidate
+    download_allowed: false
+    import_allowed: false
+    notes: No explicit repository license verified. Keep registered but do not download or import.
+    citation: Candidate repository name only
+
+  - source_id: SRC_ZHONGJING_OMNI
+    name: ZhongJing-OMNI
+    homepage: https://github.com/search?q=ZhongJing-OMNI&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: github_dataset_candidate
+    license: NO_LICENSE_FOUND
+    license_url: ""
+    allowed_use: no_import
+    data_format: unknown
+    expected_content: [question_answer]
+    status: candidate
+    download_allowed: false
+    import_allowed: false
+    notes: No explicit repository license verified. Keep registered but do not download or import.
+    citation: Candidate repository name only
+
+  - source_id: SRC_TCM_MKG_ZENODO
+    name: Traditional Chinese Medicine Multidimensional Knowledge Graph
+    homepage: https://zenodo.org/records/15395588
+    download_url: ""
+    repository_url: ""
+    source_type: knowledge_graph_dataset
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: tabular
+    expected_content:
+      - herb
+      - formula
+      - compound
+      - relation
+      - disease
+    status: candidate
+    notes: Zenodo record candidate. Verify DOI/version/license before download or import.
+    citation: Zeng and Jia, TCM-MKG, Zenodo, 2025
+
+  - source_id: SRC_TCMM_TCM_KNOWLEDGE_GRAPH
+    name: TCMM / TCM knowledge graph GitHub candidates
+    homepage: https://github.com/search?q=TCM_knowledge_graph&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: github_pipeline_reference
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: code_docs
+    expected_content:
+      - pipeline_reference
+      - relation_schema
+    status: candidate
+    notes: Registry placeholder for TCMM / TCM_knowledge_graph candidates. Manual repository and license selection required before approval.
+    citation: Candidate GitHub repositories for TCM knowledge graph construction
+
+  - source_id: SRC_TCM_LIB_SEARCH
+    name: Traditional Chinese Medicine Formula Extraction and Query
+    homepage: https://github.com/wang-shuyu/tcm_lib_search
+    download_url: https://github.com/wang-shuyu/tcm_lib_search.git
+    repository_url: https://github.com/wang-shuyu/tcm_lib_search
+    source_type: github_formula_database
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: python_sqlite_figshare
+    expected_content:
+      - formulas
+      - herb_dictionary
+      - literature_source
+    status: candidate
+    notes: Repository references Figshare supplementary data. Verify GitHub and Figshare license before download/import.
+    citation: wang-shuyu/tcm_lib_search GitHub repository
+
+  - source_id: SRC_HERB_DATABASE
+    name: HERB database
+    homepage: http://herb.ac.cn/
+    download_url: ""
+    repository_url: ""
+    source_type: public_database
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: database_export
+    expected_content:
+      - herb
+      - compound
+      - target
+      - relation
+    status: candidate
+    notes: Candidate modern-evidence database. Do not scrape or import until download terms and license are verified.
+    citation: HERB database
+
+  - source_id: SRC_SYMMAP_DATABASE
+    name: SymMap
+    homepage: http://www.symmap.org/
+    download_url: ""
+    repository_url: ""
+    source_type: public_database
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: database_export
+    expected_content:
+      - herb
+      - ingredient
+      - target
+      - symptom
+      - relation
+    status: candidate
+    notes: Candidate database only. Do not scrape, bypass access controls, or import without explicit license review.
+    citation: SymMap public database
+
+  - source_id: SRC_ETCM_DATABASE
+    name: ETCM
+    homepage: http://www.tcmip.cn/ETCM/
+    download_url: ""
+    repository_url: ""
+    source_type: public_database
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: database_export
+    expected_content:
+      - herb
+      - formula
+      - compound
+      - target
+    status: candidate
+    notes: Candidate source. Keep pending until license and permitted download path are confirmed.
+    citation: ETCM public database
+
+  - source_id: SRC_TCMBANK_DATABASE
+    name: TCMBank
+    homepage: https://tcmbank.cn/
+    download_url: ""
+    repository_url: ""
+    source_type: public_database
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: database_export
+    expected_content:
+      - herb
+      - formula
+      - compound
+      - relation
+    status: candidate
+    notes: Candidate source. Keep pending until license and permitted download path are confirmed.
+    citation: TCMBank public database
+
+  - source_id: SRC_TCMSP_DATABASE
+    name: TCMSP
+    homepage: https://old.tcmsp-e.com/tcmsp.php
+    download_url: ""
+    repository_url: ""
+    source_type: public_database
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: database_export
+    expected_content:
+      - herb
+      - compound
+      - target
+    status: candidate
+    notes: Candidate source. Do not scrape or import without explicit license review.
+    citation: TCMSP public database
+
+  - source_id: SRC_TCMSID_DATABASE
+    name: TCMSID
+    homepage: https://tcm.scbdd.com/
+    download_url: ""
+    repository_url: ""
+    source_type: public_database
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: database_export
+    expected_content:
+      - herb
+      - compound
+      - target
+      - relation
+    status: candidate
+    notes: Candidate source. Keep pending until license, download route, and redistribution terms are verified.
+    citation: TCMSID public database
+
+  - source_id: SRC_ZHONGJING_OMNI_QA
+    name: ZhongJing-OMNI QA dataset candidate
+    homepage: https://github.com/search?q=ZhongJing-OMNI&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: qa_dataset
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: qa_dataset
+    expected_content:
+      - question_answer
+      - evaluation_cases
+    status: candidate
+    notes: Candidate QA/evaluation source only. Do not use as doctor review authority.
+    citation: ZhongJing-OMNI candidate dataset
+
+  - source_id: SRC_TCMD_QA
+    name: TCMD QA dataset candidate
+    homepage: https://arxiv.org/abs/2406.04941
+    download_url: ""
+    repository_url: ""
+    source_type: qa_dataset
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: qa_dataset
+    expected_content:
+      - question_answer
+      - evaluation_cases
+    status: candidate
+    notes: Candidate QA/evaluation source only. License and dataset download location must be verified before use.
+    citation: TCMD, A Traditional Chinese Medicine QA Dataset for Evaluating Large Language Models
+
+  - source_id: SRC_TCM_LADDER_QA
+    name: TCM-Ladder QA dataset candidate
+    homepage: https://github.com/search?q=TCM-Ladder&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: qa_dataset
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: qa_dataset
+    expected_content:
+      - question_answer
+      - evaluation_cases
+    status: candidate
+    notes: Candidate QA/evaluation source only. Do not import without license review.
+    citation: TCM-Ladder candidate dataset
+
+  - source_id: SRC_TCMP_300_IMAGES
+    name: TCMP-300 image dataset candidate
+    homepage: https://github.com/search?q=TCMP-300+Chinese+medicinal+plant&type=repositories
+    download_url: ""
+    repository_url: ""
+    source_type: image_dataset
+    license: TO_BE_VERIFIED
+    license_url: ""
+    allowed_use: pending_review
+    data_format: image_dataset
+    expected_content:
+      - medicinal_plant_images
+      - labels
+    status: candidate
+    notes: Registered for future multimodal work only. Not part of the Phase 9 main ingestion path.
+    citation: TCMP-300 candidate image dataset

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/care-opd/real-thyroid-agent-queue-v1.schema.json",
+  "title": "CARE-OPD private real-thyroid Agent queue row v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "task_id",
+    "case_id",
+    "report_group_hmac",
+    "modality",
+    "source_text_private",
+    "source_record_sha256",
+    "agent_mode",
+    "candidate_visibility",
+    "candidate_entities",
+    "entity_review",
+    "candidate_fields",
+    "agent_boundary",
+    "acceptance_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "care_opd.real_thyroid_external.v1.agent_queue"},
+    "task_id": {"type": "string", "pattern": "^ann_[0-9a-f]{24}$"},
+    "case_id": {"type": "string", "pattern": "^THY-(US|PATH)-[0-9a-f]{24}$"},
+    "report_group_hmac": {"type": "string", "pattern": "^rg_[0-9a-f]{64}$"},
+    "modality": {"enum": ["thyroid_ultrasound", "thyroid_pathology"]},
+    "source_text_private": {"type": "string", "minLength": 1},
+    "source_record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "agent_mode": {"enum": ["blind_extractor", "candidate_auditor"]},
+    "candidate_visibility": {"enum": ["hidden", "visible"]},
+    "candidate_entities": {"type": "array", "items": {"type": "object"}},
+    "entity_review": {"type": "object"},
+    "candidate_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "entity_id",
+          "field_path",
+          "raw_value",
+          "required_outputs",
+          "instructions"
+        ],
+        "properties": {
+          "entity_id": {"type": "string"},
+          "field_path": {"type": "string"},
+          "raw_value": {"type": ["string", "null"]},
+          "required_outputs": {"type": "object"},
+          "instructions": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "agent_boundary": {"type": "object"},
+    "acceptance_policy": {"type": "object"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"agent_mode": {"const": "blind_extractor"}}},
+      "then": {
+        "properties": {
+          "candidate_visibility": {"const": "hidden"},
+          "candidate_fields": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"agent_mode": {"const": "candidate_auditor"}}},
+      "then": {"properties": {"candidate_visibility": {"const": "visible"}}}
+    }
+  ]
+}

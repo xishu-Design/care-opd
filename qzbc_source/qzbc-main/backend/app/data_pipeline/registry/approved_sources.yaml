@@ -1,0 +1,5 @@
+approved_sources:
+  - SRC_TCM_DATA_FOR_ML
+  - SRC_MTCMB
+  - SRC_SHENNONG_TCM_DATASET
+  - SRC_DRYAD_TCM_NETWORK

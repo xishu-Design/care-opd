@@ -1,0 +1,63 @@
+{
+  "schema_version": "care-opd-qzbc-grouped-analysis-v1",
+  "benchmark": "QZBC grouped held-out-asset evaluation",
+  "claim_scope": "In-domain model-boundary effectiveness and recovery robustness. Full view is entity-held-out only; a retrospective result-blind family-clean sensitivity view removes train/dev provenance-family overlap. Neither is template-level or out-of-domain generalization.",
+  "expected_request_rows": 4200,
+  "expected_family_clean_request_rows": 3900,
+  "expected_family_clean_seed_rows": 975,
+  "family_clean_kept_seed_ids_fingerprint": "f68e74e04fdc91f5ecaf96acaff9c9a52d00c224fd44e12c09fa2e0c413dcd4d",
+  "family_clean_excluded_seed_ids_fingerprint": "dd129dbec60d2b93157ed0be4f833133af09dc8a25777e1b03a8f11d4348ef1b",
+  "family_clean_request_ids_fingerprint": "9ab70bd2237ba505203717b5d44af0f651c109bac69085da77bcff5f63a4cd3a",
+  "family_clean_task_counts": {
+    "doctor_ai_chat": 137,
+    "doctor_review_text": 0,
+    "patient_diet_guidance": 150,
+    "patient_education": 150,
+    "quiz_generation": 142,
+    "student_ai_chat": 106,
+    "student_analysis": 140,
+    "student_quiz_explanation": 150
+  },
+  "expected_seed": 42,
+  "model_order": [
+    "frozen",
+    "clean_sft",
+    "recovery_sft",
+    "recovery_dpo",
+    "gkd_full",
+    "care_opd"
+  ],
+  "variants": [
+    "clean",
+    "bad_history",
+    "source_outage",
+    "evidence_conflict"
+  ],
+  "generation": {
+    "dtype": "bfloat16",
+    "do_sample": false,
+    "max_new_tokens": 1200,
+    "seed": 42,
+    "trust_remote_code": false
+  },
+  "primary_effectiveness": "perturbed_task_success_rate",
+  "primary_robustness": "conditional_retention",
+  "split_proof": {
+    "seed_ids_pairwise_disjoint": true,
+    "curated_asset_identity": [
+      "asset_type",
+      "asset_id",
+      "source_record_id"
+    ],
+    "curated_asset_identities_pairwise_disjoint": true,
+    "empty_curated_asset_collection": "allowed for synthetic-only seed rows and reported",
+    "nonempty_curated_asset_identity": "all identity/family fields required or fail_closed",
+    "canonical_request_target_hashes_pairwise_disjoint": true,
+    "family_clean_filter": "Block a whole test seed when any result-blind provenance-family key occurs in train or dev. Prefer (source_record, source_id, source_record_id); otherwise use (asset_fallback, source_id, asset_type, asset_id).",
+    "source_record_family_overlap": "reported; the full 4200-row view is ENTITY_HOLDOUT_ONLY",
+    "compiled_sources_bound_to_seed_outputs": true,
+    "compiled_rows_seed_membership_checked": true,
+    "test_compiler_outputs_deterministically_rebuilt_byte_identical": true,
+    "source_and_request_sha256_recomputed": true
+  }
+}
